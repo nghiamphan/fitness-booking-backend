@@ -3,21 +3,23 @@ package smu.mcda5540.fitnessbooking.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity
-@Table(name = "location")
+import java.util.List;
+
 @Data
+@Entity
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "_id")
-    private int id;
+    private int locationId;
 
-    @Column(name = "name")
+    @Column(nullable = false,unique = true)
     private String name;
 
-    @Column(name = "description")
     private String description;
 
-    @Column(name = "area")
-    private int area;
+    @Column(nullable = true)
+    private int roomSize;
+
+    @OneToMany(mappedBy = "location")
+    private List<Class> classes;
 }

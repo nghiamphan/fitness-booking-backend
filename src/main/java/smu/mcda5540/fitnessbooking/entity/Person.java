@@ -3,21 +3,31 @@ package smu.mcda5540.fitnessbooking.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Entity
-@Table(name = "person")
+import java.util.List;
+
 @Data
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "_id")
-    private int id;
+    private int personId;
 
-    @Column(name = "first_name")
+    @Column(nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(nullable = false,unique = true)
     private String email;
+
+    @Column(nullable = false,unique = true)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    @ManyToMany
+    @JoinTable(name = "booking", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "class_id"))
+    private List<Class> classes;
 }

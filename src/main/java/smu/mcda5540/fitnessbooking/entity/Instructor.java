@@ -4,23 +4,22 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
-@Entity
-@Table(name = "instructor")
 @Data
-public class Instructor implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "_id")
-    private int id;
-
-    @OneToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "_id")
-    private Person person;
-
-    @Column(name = "bio")
+@Entity
+@PrimaryKeyJoinColumn(name = "instructor_id")
+public class Instructor extends Person implements Serializable {
+    @Column(nullable = false)
     private String bio;
 
-    @Column(name = "business_phone")
+    @Column(unique = true)
     private String businessPhone;
+
+    @OneToMany(mappedBy = "instructor")
+    private List<Class> classes;
+
+    @ManyToMany
+    @JoinTable(name = "qualification",joinColumns = @JoinColumn(name = "instructor_id"),inverseJoinColumns = @JoinColumn(name = "program_id"))
+    private List<Program> programs;
 }

@@ -36,7 +36,7 @@ public class ProgramServiceImpl implements ProgramService {
 
     @Override
     public int createProgram(Program createdProgram) {
-        return programRepository.save((createdProgram)).getId();
+        return programRepository.save((createdProgram)).getProgramId();
     }
 
     @Override

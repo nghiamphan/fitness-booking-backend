@@ -36,7 +36,7 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public int createLocation(Location createdLocation) {
-        return locationRepository.save(createdLocation).getId();
+        return locationRepository.save(createdLocation).getLocationId();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class LocationServiceImpl implements LocationService {
         Location location = locationRepository.findById(locationId).orElseThrow(() -> new FitnessBookingException("ERROR.NOT_FOUND"));
 
         location.setDescription(updatedLocation.getDescription());
-        location.setArea(location.getArea());
+        location.setRoomSize(location.getRoomSize());
 
         return locationRepository.save(location);
     }
