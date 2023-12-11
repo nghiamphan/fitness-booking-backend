@@ -46,7 +46,7 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public int createClass(Class createdClass) {
-        return classRepository.save(createdClass).getId();
+        return classRepository.save(createdClass).getClassId();
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ClassServiceImpl implements ClassService {
 
         c.setStartTime(updatedClass.getStartTime());
         c.setEndTime(updatedClass.getEndTime());
-        c.setAvailableSpace(updatedClass.getAvailableSpace());
+        c.setTotalCapacity(updatedClass.getTotalCapacity());
         c.setInstructor(updatedClass.getInstructor());
         c.setProgram(updatedClass.getProgram());
         c.setLocation(updatedClass.getLocation());

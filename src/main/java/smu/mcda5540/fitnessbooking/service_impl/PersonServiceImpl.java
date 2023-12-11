@@ -36,7 +36,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public int createPerson(Person createdPerson) {
-        return personRepository.save(createdPerson).getId();
+        return personRepository.save(createdPerson).getPersonId();
     }
 
     @Override

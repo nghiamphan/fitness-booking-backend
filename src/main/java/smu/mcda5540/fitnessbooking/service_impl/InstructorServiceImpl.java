@@ -36,7 +36,7 @@ public class InstructorServiceImpl implements InstructorService {
 
     @Override
     public int createInstructor(Instructor createdInstructor) {
-        return instructorRepository.save((createdInstructor)).getId();
+        return instructorRepository.save((createdInstructor)).getPersonId();
     }
 
     @Override

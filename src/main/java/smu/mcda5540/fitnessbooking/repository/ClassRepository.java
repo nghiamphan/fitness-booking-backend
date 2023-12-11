@@ -8,9 +8,9 @@ import smu.mcda5540.fitnessbooking.entity.Class;
 import java.util.List;
 
 public interface ClassRepository extends CrudRepository<Class, Integer> {
-    @Query("SELECT c FROM Class c WHERE c.instructor.id = :instructorId")
+    @Query("SELECT c FROM Class c WHERE c.instructor.personId = :instructorId")
     List<Class> getClassByInstructorId(@Param("instructorId") int instructorId);
 
-    @Query("SELECT c FROM Class c WHERE c.program.id = :programId")
+    @Query("SELECT c FROM Class c WHERE c.program.programId = :programId")
     List<Class> getClassByProgramId(@Param("programId") int programId);
 }
