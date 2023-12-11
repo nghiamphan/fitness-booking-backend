@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import smu.mcda5540.fitnessbooking.entity.Instructor;
+import smu.mcda5540.fitnessbooking.entity.Person;
 import smu.mcda5540.fitnessbooking.service_interface.InstructorService;
+import smu.mcda5540.fitnessbooking.service_interface.PersonService;
 
 import java.util.List;
 
@@ -14,10 +16,12 @@ import java.util.List;
 @RestController
 public class InstructorController {
     private final InstructorService instructorService;
+    private final PersonService personService;
 
     @Autowired
-    public InstructorController(InstructorService instructorService) {
+    public InstructorController(InstructorService instructorService, PersonService personService) {
         this.instructorService = instructorService;
+        this.personService = personService;
     }
 
     @GetMapping(value = "")
@@ -34,8 +38,19 @@ public class InstructorController {
 
     @PostMapping(value = "")
     public ResponseEntity<Integer> createInstructor(@RequestBody Instructor createdInstructor) throws Exception {
-        int instructorId = instructorService.createInstructor(createdInstructor);
-        return new ResponseEntity<>(instructorId, HttpStatus.CREATED);
+        if(createdInstructor.getBio()==null && createdInstructor.getBusinessPhone()==null) {
+            Person person=new Person();
+            person.setEmail(createdInstructor.getEmail());
+            person.setUsername(createdInstructor.getUsername());
+            person.setPassword(createdInstructor.getPassword());
+            person.setFirstName(createdInstructor.getFirstName());
+            person.setLastName(createdInstructor.getLastName());
+            int personId = personService.createPerson(person);
+            return new ResponseEntity<>(personId, HttpStatus.CREATED);
+        } else {
+            int instructorId = instructorService.createInstructor(createdInstructor);
+            return new ResponseEntity<>(instructorId, HttpStatus.CREATED);
+        }
     }
 
     @PutMapping(value = "/{instructorId}")
