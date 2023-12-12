@@ -1,11 +1,14 @@
 package smu.mcda5540.fitnessbooking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
@@ -27,6 +30,7 @@ public class Person {
     @Column(nullable = false)
     private String password;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "booking", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "class_id"))
     private List<Class> classes;
