@@ -1,6 +1,7 @@
 package smu.mcda5540.fitnessbooking.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,8 +31,17 @@ public class Person {
     @Column(nullable = false)
     private String password;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "booking", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "class_id"))
     private List<Class> classes;
+
+    @JsonIgnore
+    public List<Class> getClasses() {
+        return classes;
+    }
+
+    @JsonProperty("classes")
+    public void setClasses(List<Class> classes) {
+        this.classes=classes;
+    }
 }
