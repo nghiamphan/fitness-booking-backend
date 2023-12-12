@@ -20,6 +20,6 @@ public class Instructor extends Person implements Serializable {
     private List<Class> classes;
 
     @ManyToMany
-    @JoinTable(name = "qualification",joinColumns = @JoinColumn(name = "instructor_id"),inverseJoinColumns = @JoinColumn(name = "program_id"))
+    @JoinTable(name = "qualification", joinColumns = @JoinColumn(name = "instructor_id"), inverseJoinColumns = @JoinColumn(name = "program_id"))
     private List<Program> programs;
 }
