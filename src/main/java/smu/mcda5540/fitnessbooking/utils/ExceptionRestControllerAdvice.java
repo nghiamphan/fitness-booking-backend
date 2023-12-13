@@ -27,7 +27,11 @@ public class ExceptionRestControllerAdvice {
 
     @ExceptionHandler(FitnessBookingException.class)
     public ResponseEntity<ErrorInfo> fitnessBookingExceptionHandler(Exception e) {
-        ErrorInfo errorInfo = new ErrorInfo(HttpStatus.BAD_REQUEST.value(), environment.getProperty(e.getMessage()), LocalDateTime.now());
+        ErrorInfo errorInfo;
+        if(e.getMessage().startsWith("ERROR."))
+            errorInfo = new ErrorInfo(HttpStatus.BAD_REQUEST.value(), environment.getProperty(e.getMessage()), LocalDateTime.now());
+        else
+            errorInfo = new ErrorInfo(HttpStatus.BAD_REQUEST.value(), e.getMessage(), LocalDateTime.now());
         return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
     }
 
