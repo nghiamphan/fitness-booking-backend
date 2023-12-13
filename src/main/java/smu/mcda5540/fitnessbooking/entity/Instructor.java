@@ -23,7 +23,6 @@ public class Instructor extends Person implements Serializable {
     @OneToMany(mappedBy = "instructor")
     private List<Class> classes;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "qualification", joinColumns = @JoinColumn(name = "instructor_id"), inverseJoinColumns = @JoinColumn(name = "program_id"))
     private List<Program> programs;
