@@ -1,6 +1,7 @@
 package smu.mcda5540.fitnessbooking.service_interface;
 
 import smu.mcda5540.fitnessbooking.entity.Person;
+import smu.mcda5540.fitnessbooking.utils.FitnessBookingException;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface PersonService {
     Person updatePerson(int personId, Person updatedPerson) throws Exception;
 
     Person deletePerson(int personId) throws Exception;
+
+    Person dropClass(int personId, List<Integer> classIds) throws FitnessBookingException;
 }

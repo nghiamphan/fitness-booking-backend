@@ -66,4 +66,14 @@ public class PersonServiceImpl implements PersonService {
         personRepository.deleteById(personId);
         return person;
     }
+
+    @Override
+    public Person dropClass(int personId, List<Integer> classIds) throws FitnessBookingException {
+        Person person = personRepository.findById(personId).orElseThrow(() -> new FitnessBookingException("ERROR.NOT_FOUND"));
+        int origNoOfClasses=person.getClasses().size();
+        person.getClasses().removeIf(classObj->classIds.contains(classObj.getClassId()));
+        if(origNoOfClasses==person.getClasses().size())
+            throw new FitnessBookingException("ERROR.NO_EXISTING_BOOKING");
+        return personRepository.save(person);
+    }
 }

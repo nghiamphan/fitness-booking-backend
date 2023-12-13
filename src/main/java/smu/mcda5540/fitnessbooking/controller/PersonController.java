@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import smu.mcda5540.fitnessbooking.entity.Person;
 import smu.mcda5540.fitnessbooking.service_interface.PersonService;
+import smu.mcda5540.fitnessbooking.utils.FitnessBookingException;
 
 import java.util.List;
 
@@ -41,6 +42,12 @@ public class PersonController {
     @PutMapping(value = "/{personId}")
     public ResponseEntity<Person> updatePerson(@PathVariable int personId, @RequestBody Person updatedPerson) throws Exception {
         Person person = personService.updatePerson(personId, updatedPerson);
+        return new ResponseEntity<>(person, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/drop-class/{personId}")
+    public ResponseEntity<Person> dropClass(@PathVariable int personId, @RequestParam List<Integer> classes) throws FitnessBookingException {
+        Person person = personService.dropClass(personId, classes);
         return new ResponseEntity<>(person, HttpStatus.OK);
     }
 
