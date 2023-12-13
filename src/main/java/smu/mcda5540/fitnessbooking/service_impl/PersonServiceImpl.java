@@ -2,6 +2,7 @@ package smu.mcda5540.fitnessbooking.service_impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import smu.mcda5540.fitnessbooking.entity.Class;
 import smu.mcda5540.fitnessbooking.entity.Person;
 import smu.mcda5540.fitnessbooking.repository.PersonRepository;
 import smu.mcda5540.fitnessbooking.service_interface.PersonService;
@@ -45,8 +46,14 @@ public class PersonServiceImpl implements PersonService {
         Person person = personRepository.findById(personId).orElseThrow(() -> new FitnessBookingException("ERROR.NOT_FOUND"));
         for(Field f:updatedPerson.getClass().getDeclaredFields()) {
             f.setAccessible(true);
-            if(f.get(updatedPerson)!=null && f.getName()!="personId") {
-                f.set(person, f.get(updatedPerson));
+            if(f.get(updatedPerson)!=null && !f.getName().equals("personId")) {
+                if(f.getName().equals("classes")){
+                    List<Class> personClasses=(List<Class>) f.get(person);
+                    personClasses.addAll((List<Class>)f.get(updatedPerson));
+                    f.set(person,personClasses);
+                }
+                else
+                    f.set(person, f.get(updatedPerson));
             }
             f.setAccessible(false);
         }
