@@ -31,6 +31,7 @@ public class Person {
     @Column(nullable = false)
     private String password;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "booking", joinColumns = @JoinColumn(name = "person_id"), inverseJoinColumns = @JoinColumn(name = "class_id"))
     private List<Class> classes;
