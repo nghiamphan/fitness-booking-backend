@@ -3,10 +3,12 @@ package smu.mcda5540.fitnessbooking.service_impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import smu.mcda5540.fitnessbooking.entity.Instructor;
+import smu.mcda5540.fitnessbooking.entity.Program;
 import smu.mcda5540.fitnessbooking.repository.InstructorRepository;
 import smu.mcda5540.fitnessbooking.service_interface.InstructorService;
 import smu.mcda5540.fitnessbooking.utils.FitnessBookingException;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,10 +44,18 @@ public class InstructorServiceImpl implements InstructorService {
     @Override
     public Instructor updateInstructor(int instructorId, Instructor updatedInstructor) throws Exception {
         Instructor instructor = instructorRepository.findById(instructorId).orElseThrow(() -> new FitnessBookingException("ERROR.NOT_FOUND"));
-
-        instructor.setBio(updatedInstructor.getBio());
-        instructor.setBusinessPhone(updatedInstructor.getBusinessPhone());
-
+        for(Field f:updatedInstructor.getClass().getDeclaredFields()) {
+            f.setAccessible(true);
+            if(f.get(updatedInstructor)!=null) {
+                if(f.getName().equals("programs")) {
+                    List<Program> instructorPrograms=(List<Program>) f.get(instructor);
+                    instructorPrograms.addAll((List<Program>)f.get(updatedInstructor));
+                    f.set(instructor,instructorPrograms);
+                } else
+                    f.set(instructor, f.get(updatedInstructor));
+            }
+            f.setAccessible(false);
+        }
         return instructorRepository.save(instructor);
     }
 
